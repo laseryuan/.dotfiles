@@ -180,20 +180,14 @@ clear_history() {
     }
 }
 
-for file in ~/.{functions.sh,dockerfunc.sh}; do
+alias clearhistory="clear_history"
+
+for file in ~/.{aliases,functions.sh,dockerfunc.sh,path.sh}; do
   if [[ -r "$file" ]] && [[ -f "$file" ]]; then
     # shellcheck source=/dev/null
     source "$file"
   fi
 done
 
-alias clearhistory="clear_history"
-
 # Load Google Computer Engine credentials
 export GOOGLE_APPLICATION_CREDENTIALS=$HOME/.docker/cloud-computing/gce-credentials.json
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/laser/google-cloud-sdk/path.bash.inc' ]; then . '/home/laser/google-cloud-sdk/path.bash.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/laser/google-cloud-sdk/completion.bash.inc' ]; then . '/home/laser/google-cloud-sdk/completion.bash.inc'; fi

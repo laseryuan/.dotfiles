@@ -747,10 +747,10 @@ remmina(){
     -e "DISPLAY=unix${DISPLAY}" \
     -e GDK_SCALE \
     -e GDK_DPI_SCALE \
-    -v "${HOME}/.remmina:/root/.remmina" \
+    -v "${HOME}/.remmina:/home/remmina/.remmina" \
     --name remmina \
     --net host \
-    ${DOCKER_REPO_PREFIX}/remmina
+    ${MY_DOCKER_REPO_PREFIX}/remmina
 }
 ricochet(){
   del_stopped ricochet
@@ -789,6 +789,25 @@ s3cmdocker(){
     -v "$(pwd):/root/s3cmd-workspace" \
     --name s3cmd \
     ${DOCKER_REPO_PREFIX}/s3cmd "$@"
+}
+samba(){
+  del_stopped samba
+  cwd="/mnt/ntfs"
+
+  docker run -d \
+    -p 139:139 -p 445:445 \
+    -v ${cwd}:/mount/samba \
+    --restart unless-stopped \
+    --workdir "/home/mc/${name}" \
+    -e "USERID=1000" \
+    -e "GROUPID=1000" \
+    --name samba \
+    ${MY_DOCKER_REPO_PREFIX}/samba \
+    -s "public;/mount/samba;yes;no" \
+    -S
+
+  # exit current shell
+  exit 0
 }
 scudcloud(){
   del_stopped scudcloud
@@ -977,18 +996,16 @@ tor(){
 torbrowser(){
   del_stopped torbrowser
 
+    # --privileged \
+    # -v /dev:/dev \
   docker run -d \
+    -v tor-browser-config:/usr/local/bin/Browser/TorBrowser/Data \
     -v /etc/localtime:/etc/localtime:ro \
-    -v /tmp/.X11-unix:/tmp/.X11-unix \
-    -e "DISPLAY=unix${DISPLAY}" \
-    -e GDK_SCALE \
-    -e GDK_DPI_SCALE \
-    --device /dev/snd \
+    -e "DISPLAY=unix${DISPLAY}" -v /tmp/.X11-unix:/tmp/.X11-unix \
+    -e PULSE_SERVER=unix:/run/user/1000/pulse/native -v /run/user/1000/pulse:/run/user/1000/pulse \
+    -v /dev/shm:/dev/shm \
     --name torbrowser \
-    ${DOCKER_REPO_PREFIX}/tor-browser
-
-  # exit current shell
-  exit 0
+    ${MY_DOCKER_REPO_PREFIX}/tor-browser
 }
 tormessenger(){
   del_stopped tormessenger
