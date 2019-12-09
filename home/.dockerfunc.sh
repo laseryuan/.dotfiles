@@ -1,5 +1,7 @@
 #!/bin/bash
 # Bash wrappers for docker run commands
+# docker run --rm -it \
+    # --entrypoint=/bin/bash \
 
 export DOCKER_REPO_PREFIX=jess
 export MY_DOCKER_REPO_PREFIX=lasery
@@ -713,10 +715,10 @@ pulseaudio(){
   del_stopped pulseaudio
 
   docker run -d \
+    -p 4713:4713 \
+    --restart unless-stopped \
     -v /etc/localtime:/etc/localtime:ro \
     --device /dev/snd \
-    -p 4713:4713 \
-    --restart always \
     --group-add audio \
     --name pulseaudio \
     ${DOCKER_REPO_PREFIX}/pulseaudio
@@ -1033,7 +1035,7 @@ torproxy(){
     --name torproxy \
     ${DOCKER_REPO_PREFIX}/tor-proxy
 
-  hostess add torproxy "$(docker inspect --format '{{.NetworkSettings.Networks.bridge.IPAddress}}' torproxy)"
+  sudo env "PATH=$PATH" hostess add torproxy "$(docker inspect --format '{{.NetworkSettings.Networks.bridge.IPAddress}}' torproxy)"
 }
 traceroute(){
   docker run --rm -it \
