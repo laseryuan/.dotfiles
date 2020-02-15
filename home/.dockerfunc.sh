@@ -137,16 +137,14 @@ chrome(){
   # overlay support inotify, such bullshit
   # U2F support:
   # --privileged -v /dev:/dev \
+  # -v "${HOME}/Downloads:/home/chrome/Downloads" \
   docker run -d \
-    -v "${HOME}/.chrome:/data" \
+    -v "${HOME}/Documents/.chrome:/data" \
     -v /usr/share/fonts:/usr/share/fonts:ro \
     --memory 3gb \
     -v /etc/localtime:/etc/localtime:ro \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     -e "DISPLAY=unix${DISPLAY}" \
-    -v "${HOME}/Downloads:/root/Downloads" \
-    -v "${HOME}/Pictures:/root/Pictures" \
-    -v "${HOME}/Torrents:/root/Torrents" \
     -v /etc/hosts:/etc/hosts \
     --security-opt seccomp:/etc/docker/seccomp/chrome.json \
     -v /dev/shm:/dev/shm \
