@@ -140,17 +140,6 @@ mycd() {
 }
 alias cd=mycd
 
-# Set GPG TTY
-export GPG_TTY=$(tty)
-
-# Refresh gpg-agent tty in case user switches into an X session
-gpg-connect-agent updatestartuptty /bye >/dev/null
-
-# SSH
-if [ -z "$SSH_CONNECTION"  ]; then
-  export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-fi
-
 # Default editor
 export VISUAL=vim
 export EDITOR="$VISUAL"
@@ -182,7 +171,7 @@ clear_history() {
 
 alias clearhistory="clear_history"
 
-for file in ~/.{aliases,functions.sh,dockerfunc.sh,path.sh,ssh-me.sh}; do
+for file in ~/.{aliases,functions.sh,dockerfunc.sh,path.sh,ssh-me.sh,gpg.sh}; do
   if [[ -r "$file" ]] && [[ -f "$file" ]]; then
     # shellcheck source=/dev/null
     source "$file"

@@ -48,6 +48,10 @@ relies_on(){
 #
 # Container Aliases
 #
+
+alias yt='docker run --rm -u $(id -u):$(id -g) -v $PWD:/data vimagick/youtube-dl'
+# alias mustache='docker run -v `pwd`:/data --rm coolersport/mustache'
+
 apt_file(){
   docker run --rm -it \
     --name apt-file \
@@ -135,11 +139,12 @@ chrome(){
 
   # one day remove /etc/hosts bind mount when effing
   # overlay support inotify, such bullshit
-  # U2F support:
-  # --privileged -v /dev:/dev \
-  # -v "${HOME}/Downloads:/home/chrome/Downloads" \
+  # :
+    # --privileged -v /dev:/dev `# U2F support` \
+    # -v "${HOME}/Downloads:/home/chrome/Downloads" \
   docker run -d \
     -v "${HOME}/Documents/.chrome:/data" \
+    -v "${HOME}/Documents/.chrome/Share:/home/chrome/Downloads" \
     -v /usr/share/fonts:/usr/share/fonts:ro \
     --memory 3gb \
     -v /etc/localtime:/etc/localtime:ro \
