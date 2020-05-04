@@ -171,7 +171,7 @@ clear_history() {
 
 alias clearhistory="clear_history"
 
-for file in ~/.{aliases,functions.sh,dockerfunc.sh,path.sh,ssh-me.sh,gpg.sh}; do
+for file in ~/.bashrc.d/.{aliases,functions.sh,dockerfunc.sh,path.sh,ssh-me.sh,gpg.sh}; do
   if [[ -r "$file" ]] && [[ -f "$file" ]]; then
     # shellcheck source=/dev/null
     source "$file"
