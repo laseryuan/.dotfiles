@@ -16,6 +16,12 @@ sshyou() {
   ssh -J sish.unsown.top:2222 ride@$1
 }
 
+scpyou() {
+  server=$1
+  shift
+  scp -J sish.unsown.top:2222 ride@"$server":"/home/ride/projects/ride/$@"
+}
+
 msshyou() {
   mosh -J sish.unsown.top:2222 ride@$1
 }
