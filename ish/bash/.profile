@@ -14,7 +14,10 @@ sshyou() {
 }
 
 dev() {
-  ssh -L 5900:desktop:5900 -J sish.unsown.top:2222 root@templates
+  ssh \
+    -L :5900:desktop:5900 \
+    -J sish.unsown.top:2222 \
+    root@templates
 }
 
 scpyou() {
