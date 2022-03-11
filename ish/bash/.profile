@@ -10,7 +10,16 @@ mkdir -p ~/projects
 cd ~/projects
 
 sshyou() {
-  ssh -J sish.unsown.top:2222 root@$1
+  ssh -J sish.unsown.top:2222 $1
+}
+
+sshme() {
+  /usr/sbin/sshd
+  ssh -fN -p 2222 -R iphone:22:localhost:22000 sish.unsown.top
+}
+
+syncfile() {
+  rsync --partial -avz ubuntu@oracle-big.unsown.top:/home/ubuntu/.firefox/Downloads/rsync ~/oracle
 }
 
 dev() {
