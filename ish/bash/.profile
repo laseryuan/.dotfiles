@@ -10,12 +10,18 @@ mkdir -p ~/projects
 cd ~/projects
 
 sshyou() {
-  ssh -J sish.unsown.top:2222 $1
+  ssh \
+    -L :5900:desktop:5900 \
+    -L :5901:desktop:5901 \
+    -J sish.unsown.top:2222 \
+  $1
 }
 
 sshme() {
   /usr/sbin/sshd
-  ssh -fN -p 2222 -R iphone:22:localhost:22000 sish.unsown.top
+  ssh -fN \
+    -R iphone:22:localhost:22000 \
+    -p 2222 sish.unsown.top
 }
 
 syncfile() {
@@ -23,14 +29,12 @@ syncfile() {
 }
 
 dev() {
-  ssh \
-    -L :5900:desktop:5900 \
-    -J sish.unsown.top:2222 \
-    root@templates
+  sshyou ride@templates
 }
 
 scpyou() {
   server=$1
   shift
-  scp -J sish.unsown.top:2222 ride@"$server":"/home/ride/projects/$@"
+  scp -J sish.unsown.top:2222 \
+    ride@"$server":"/home/ride/projects/$@"
 }
